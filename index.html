@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>图像处理：图像灰度化</title>
+  <link rel="shortcut icon" href="img/lena_std_64.png">
+
+  <style>
+    a {
+      text-decoration: none;
+    }
+
+    .wrapper {
+      width: 900px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .img-lena {
+      height: 256px;
+      width: 256px;
+    }
+
+    .photoframe {
+      border: 1px solid #000000;
+      width: 256px;
+      text-align: center;
+      margin: 0 auto;
+      margin-bottom: 10px;
+    }
+
+    .photoframe-box {
+      text-align: center;
+    }
+
+    .photoframe-box .photoframe {
+      display: inline-block;
+    }
+  </style>
+
+</head>
+
+<body>
+  <div class="wrapper">
+    <div class="header">
+      <h1>图像处理：图像灰度化</h1>
+      <div>
+        <span> MaiJZ </span>
+        <a href="https://github.com/maijz128/Grayscale"> GitHub </a>
+      </div>
+    </div>
+
+    <div>
+      <h3>简介：</h3>
+      <p>​
+        <strong>灰度化处理</strong>就是把彩色图像转化为灰度图。</p>
+      <p>​
+        <strong>灰度图</strong>是每一个像素点R，G，B三个分量值都相等的图像。</p>
+      <p>​
+        <strong>灰度级/亮度级</strong>：一个256级灰度的图象，如果RGB三个量相同时，如：RGB(100,100,100)就代表灰度为100，RGB(50,50,50)代表灰度为50。</p>
+      <h3>灰度化处理方法：</h3>
+      <h4>1. 分量法/单通道</h4>
+      <p>将彩色图像中三个分量任意一个作为灰度图像的灰度值。</p>
+      <pre><code>Gray1 = (R, R, R)
+        Gray2 = (G, G, G)
+        Gray3 = (B, B, B)
+        </code></pre>
+      <h4>2. 最大值法</h4>
+      <p>将彩色图像中的三分量的最大值作为灰度图的灰度值。</p>
+      <pre><code>Gray = max(R, G, B)
+        </code></pre>
+      <h4>3. 平均值法</h4>
+      <p>将彩色图像中的三分量求平均得到一个灰度值。</p>
+      <pre><code>Gray = (R + G + B) / 3
+        </code></pre>
+      <h4>4. 加权平均法</h4>
+      <p>根据重要性及其它指标，将三个分量以不同的权值进行加权平均。由于人眼对绿色的敏感最高，对蓝色敏感最低，因此，按下式对RGB三分量进行加权平均能得到较合理的灰度图像。</p>
+      <pre><code>Gray = 0.299 * R + 0.587 * G + 0.114 * B
+        </code></pre>
+    </div>
+
+    <div>
+      <h3>效果：</h3>
+      <div class="photoframe">
+        <img class="img-lena" id="origin-image" src='img/lena_std_256.png' style="display: none;" />
+        <canvas id="origin-image-canvas" width="256" height="256"></canvas>
+        <span>原图（lena）</span>
+      </div>
+
+      <div class="photoframe-box">
+        <div class="photoframe ">
+          <canvas id="single-channels-R" width="256" height="256"></canvas>
+          <span>分量法/单通道 R</span>
+        </div>
+        <div class="photoframe">
+          <canvas id="single-channels-G" width="256" height="256"></canvas>
+          <span>分量法/单通道 G</span>
+        </div>
+        <div class="photoframe">
+          <canvas id="single-channels-B" width="256" height="256"></canvas>
+          <span>分量法/单通道 B</span>
+        </div>
+      </div>
+
+      <div class="photoframe-box">
+        <div class="photoframe">
+          <canvas id="max-value" width="256" height="256"></canvas>
+          <span>最大值法</span>
+        </div>
+        <div class="photoframe">
+          <canvas id="average-value" width="256" height="256"></canvas>
+          <span>平均值法</span>
+        </div>
+        <div class="photoframe">
+          <canvas id="weighted-average" width="256" height="256"></canvas>
+          <span>加权平均法</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="index.js" type="text/javascript" charset="utf-8"></script>
+</body>
+
+</html>
