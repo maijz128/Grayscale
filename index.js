@@ -31,6 +31,8 @@ window.onload = function () {
             handleMaxValueMethod(originImgData);
             handleAverageValueMethod(originImgData);
             handleWeightedAverageMethod(originImgData);
+
+            handleThresholding();
         }
     }, 100);
 };
@@ -225,3 +227,42 @@ function handleWeightedAverageMethod(originImageData) {
 }
 
 /////////////////////////////////////////////////////////////////////////
+
+function thresholding(originImageData, targetImageData) {
+    for (var i = 0; i < originImageData.data.length; i += 4) {
+        var r = originImageData.data[i + 0];
+        var g = originImageData.data[i + 1];
+        var b = originImageData.data[i + 2];
+
+        var value = 0;
+        if (r === g && g === b && b > 127) {
+            value = 255;
+        }
+
+        // R - 红色 (0-255)
+        targetImageData.data[i + 0] = value;
+        // G - 绿色 (0-255)
+        targetImageData.data[i + 1] = value;
+        // B - 蓝色 (0-255)
+        targetImageData.data[i + 2] = value;
+        // A - alpha 通道 (0-255; 0 是透明的，255 是完全可见的)        
+        targetImageData.data[i + 3] = originImageData.data[i + 3];
+    }
+    return targetImageData;
+}
+
+function handleThresholding() {
+    var elOriginCanvas = document.getElementById('weighted-average');
+    var elOriginCanvasContext = elOriginCanvas.getContext("2d");
+    var originImageData = elOriginCanvasContext.getImageData(0, 0, IMG_SIZE_WIDTH, IMG_SIZE_HEIGHT);
+
+    var elTargetCanvas = document.getElementById('thresholding');
+    var elTargetCanvasContext = elTargetCanvas.getContext("2d");
+    var targetImageData = elTargetCanvasContext.createImageData(IMG_SIZE_WIDTH, IMG_SIZE_HEIGHT);
+
+    targetImageData = thresholding(originImageData, targetImageData);
+
+    elTargetCanvasContext.putImageData(targetImageData, 0, 0);
+}
+
+////////////////////////////////////////////////////////////////////////
